@@ -1,0 +1,98 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["standard", "plugin:jsx-a11y/recommended", "prettier"],
+  "plugins": [
+    "jsx-a11y",
+    "prettier",
+    "@typescript-eslint",
+    "simple-import-sort"
+  ],
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "16.10.1"
+    }
+  },
+  "rules": {
+    "curly": "warn",
+    "simple-import-sort/imports": "warn",
+    "simple-import-sort/exports": "warn",
+    "import/no-extraneous-dependencies": [
+      1,
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": true
+      }
+    ],
+    "no-use-before-define": 1,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/camelcase": 0,
+    "no-shadow": 0,
+    "no-case-declarations": 0,
+    "no-console": 1,
+    "react/forbid-foreign-prop-types": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "endOfLine": "auto"
+      }
+    ],
+    "no-var": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "import/named": "off",
+    "import/no-unresolved": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "cypress/no-unnecessary-waiting": "off"
+  },
+  "overrides": [
+    // override "simple-import-sort" config
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        "simple-import-sort/imports": [
+          "warn",
+          {
+            "groups": [
+              // Packages `react` related packages come first.
+              ["^react", "^@?\\w"],
+              // Style imports.
+              ["^.+\\.?(scss)$"],
+
+              ["^(@iconify)(/.*|$)"],
+
+              ["^(helpers/constants)(/.*|$)"],
+
+              ["^(helpers)(/.*|$)"],
+
+              ["^(components)(/.*|$)"],
+              // Containers
+              ["^(containers)(/.*|$)"],
+              // Contexts
+              ["^(contexts)(/.*|$)"],
+              // Parent imports. Put `..` last.
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              // Side effect imports.
+              ["^\\u0000"]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -38,7 +38,10 @@ h1 {
     transform: translateY(-20px);
     transition: 0.2s;
 }
-.photographer_section article {
+
+#details, 
+.photographer_section article, 
+.photographer_section a {
     display: flex;
     justify-self: center;
     justify-content: center;
