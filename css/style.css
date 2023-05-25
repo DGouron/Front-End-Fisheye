@@ -1,10 +1,10 @@
-@import url("photographer.css");
+// Its the base of the style
 
 body {
     font-family: "DM Sans", sans-serif;
+    background-color: #e5e5e5;
     margin: 0;
 }
-
 
 header {
     display: flex;

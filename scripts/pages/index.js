@@ -3,7 +3,7 @@ async function displayData(photographers) {
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);
         /* Add card img */
-        const photographerCardImg = photographerModel.buildCardImg();
+        const photographerCardThumbnail = photographerModel.buildCardThumbnail();
         /* Add card name */
         const photographerCardName = photographerModel.buildCardName();
         /* Add country and city */
@@ -21,7 +21,7 @@ async function displayData(photographers) {
         ]);
 
         /* Wrap card into link */
-        const photographerLink = photographerModel.buildLink([photographerCardImg, photographerCardName]);
+        const photographerLink = photographerModel.buildLink([photographerCardThumbnail, photographerCardName]);
        
         /* Add link to section */   
         photographersSection.appendChild(photographerLink);
@@ -39,7 +39,6 @@ async function displayData(photographers) {
 };
 
 async function init() {
-    // Récupère les datas des photographes
     const { photographers } = await dataFetch("./data/photographers.json", "GET");
     displayData(photographers);
 };

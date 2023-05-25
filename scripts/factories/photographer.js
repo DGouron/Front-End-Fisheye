@@ -20,7 +20,7 @@ function photographerFactory(data) {
         });
         return details;
     };
-    const buildCardImg = () => {
+    const buildCardThumbnail = () => {
         const img = document.createElement( 'img' );
         img.setAttribute("src", picture);
         img.setAttribute("alt", `Photo du photographe ${name}`);
@@ -45,7 +45,7 @@ function photographerFactory(data) {
 
     const buildPrice = () => {
         const price = document.createElement( 'p' );
-        price.textContent = `${data.price}€/jour`;
+        price.textContent = `${data.price}€ / jour`;
         return price;
     };
 
@@ -71,14 +71,32 @@ function photographerFactory(data) {
         return linkToPhotographer;
     }
 
+    function buildContactButton() {
+        const contactButton = document.createElement( 'button' );
+        contactButton.classList.add("modal__contact--button");
+        contactButton.setAttribute("aria-label", `Contact Me`);
+        contactButton.setAttribute("id", `openContactModal`);
+        contactButton.textContent = "Contactez-moi";
+        return contactButton;
+    }
+
+    function populateEncart() {
+        const encartContent = document.createElement( 'p' );
+        const priceElement = buildPrice();
+        encartContent.appendChild(priceElement);
+        return encartContent;
+    }
+
     return { 
         buildLink,
-        buildCardImg, 
+        buildCardThumbnail, 
         buildCardName, 
         compilePhotographerArticle,
         compileDetails,
         buildLocation,
         buildTagline,
         buildPrice,
+        buildContactButton,
+        populateEncart,
      }
 }

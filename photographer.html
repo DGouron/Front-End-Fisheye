@@ -1,43 +1,89 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fisheye est une entreprise de photographes indépendants. Notre communauté vous propose ses meilleurs services afin de sublimer vos souvenirs à jamais.">
-    <title>Fisheye - photographe </title>
-  </head>
-  <body>
-    <header>
-      <a href='/' title='Fisheye Home page'>
-        <img src="assets/images/logo.png" class="logo" alt="Fisheye Home page"/>
-      </a>
+<html lang="fr">
+
+<head>
+  <link href="css/photographer.css" rel="stylesheet" type="text/css">
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+  <title>Fisheye - photographe </title>
+</head>
+
+<body>
+  <header>
+    <a href="/" aria-label="Lien vers page d'accueil">
+      <img src="assets/images/logo.png" class="logo" alt="Fisheye Home Page">
+    </a>
+  </header>
+  <main id="main">
+    <header class="photographer__header">
     </header>
-    <main id="main">
-      <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-      </div>
-    </main>
-    <div id="contact_modal">
-			<div class="modal">
-				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
-        </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
-					</div>
-          <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
-    <script src="/scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
-  </body>
+    <article class="photographer__medias">
+      <section class="sort-container">
+        <span id="sort-by">Trier par</span>
+        <div id="sort-menu">
+          <button type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Order-by"
+            id="sort-options-button"><em class="fa-solid fa-chevron-down toggle-icon"></em> </button>
+          <div id="sort-options" role="listbox" aria-expanded="false">
+            <button class="choosen-option" aria-selected="true" role="option">Date</button>
+            <button class="choosen-option" aria-selected="false" role="option">Popularité</button>
+            <button class="choosen-option" aria-selected="false" role="option">Titre</button>
+          </div>
+        </div>
+      </section>
+      <section class="media__container">
+
+      </section>
+    </article>
+    <article class="photographer__encart--container">
+
+    </article>
+  </main>
+
+  <dialog id="modal__contact" aria-hidden="true" aria-labelledby="modal__title">
+    <section class="modal">
+      <header>
+        <h2 id="modal__title">Contactez-moi</h2>
+        <button class="modal__close--button" onclick="closeModal()">
+          <img src="assets/icons/close.svg" alt="closing element">
+        </button>
+      </header>
+      <form class="modal__form">
+        <div>
+          <label for="prenom">Prénom </label>
+          <input type="text" name="prenom" id="prenom" required minlength="2" maxlength="60" size="10">
+          <label for="nom">Nom </label>
+          <input type="text" name="nom" id="nom" required minlength="2" maxlength="60" size="10">
+          <label for="email">Email </label>
+          <input type="email" name="email" id="email" required>
+          <label for="message">Votre message </label>
+          <input type="text" name="message" id="message" required>
+        </div>
+        <button type="submit" class="contact_button">Envoyer</button>
+      </form>
+    </section>
+  </dialog>
+
+  <dialog id="modal__lightbox" aria-hidden="true" aria-label="image closeup view">
+    <section id="lightboxContainer">
+      <button class="lightbox__close" aria-label="close dialog">
+        <em class=" fa-solid fa-xmark"></em>
+      </button>
+      <button class="lightbox__prev" aria-label="previous image">
+        <em class="fa-solid fa-chevron-left"></em>
+      </button>
+      <button class="lightbox__next" aria-label="next image">
+        <em class=" fa-solid fa-chevron-right"></em>
+      </button>
+    </section>
+  </dialog>
+
+  <script src="scripts/helpers/dataFetch.js"></script>
+  <script src="scripts/factories/photographer.js"></script>
+  <script src="scripts/factories/media.js"></script>
+  <script src="scripts/factories/modal.js"></script>
+  <script src="scripts/pages/photographer.js"></script>
+  <script src="https://kit.fontawesome.com/0152501894.js" crossorigin="anonymous"></script>
+</body>
+
 </html>
