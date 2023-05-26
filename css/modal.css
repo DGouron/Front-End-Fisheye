@@ -85,8 +85,19 @@ form input {
   background-color: transparent;
   border: none;
 }
-
 .modal header {
   justify-content: space-between;
   width: 100%;
+}
+.contact__button--submit{
+  width: 170px;
+  height: 70px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'DM Sans';
+  text-align: center;
+  color: #FFFFFF;
+  background-color: #911C1C;
+  border: none;
+  border-radius: 5px;
 }

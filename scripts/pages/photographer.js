@@ -91,8 +91,6 @@ function bindContactModal(){
   const modalContact = document.getElementById("modal__contact");
   const closeModalButton = document.querySelector(".modal__close--button");
 
-
-
   contactButton.addEventListener("click", () => {
     modalContact.classList.add("modal--active");
     modalContact.setAttribute("aria-hidden", "false");
@@ -100,8 +98,18 @@ function bindContactModal(){
 
   closeModalButton.addEventListener("click", () => {
     modalContact.classList.remove("modal--active");
+    modalContact.setAttribute("aria-hidden", "true");
   });
 
+  const submitButton = document.querySelector(".contact__button--submit");
+  submitButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      const form = document.querySelector(".contact__form");
+      const formData = new FormData(form);
+      const formValues = Object.fromEntries(formData.entries());
+      console.table(formValues);
+    }
+  );
 }
 
 async function init() {
