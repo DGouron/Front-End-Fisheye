@@ -19,6 +19,10 @@ async function getPhotographerMedia(media, id) {
   return media.filter(media => media.photographerId == id);
 }
 
+function getMediaById(media, id) {
+  return media.find(media => media.id == id);
+}
+
 async function displayHeader(photographers, photographerId){
    
   const photographer = getPhotographer(photographers, photographerId);
@@ -92,6 +96,18 @@ async function displayEncart(photographers, photographerId){
   return "success";
 };
 
+async function displayMediaInLightbox(mediaId){
+  // Fetch media from API
+  const { media } = await dataFetch("./data/photographers.json", "GET");
+  const mediaFound = getMediaById(media, mediaId);
+  if(!mediaFound) throw new Error("Media not found");
+  const mediaModel = mediaFactory(mediaFound);
+  const lightboxCard = mediaModel.buildLightboxCard();
+  const lightboxContainer = document.querySelector(".modal__lightbox--container");
+  lightboxContainer.removeChild(lightboxContainer.lastChild);
+  lightboxContainer.appendChild(lightboxCard);
+}  
+
 function bindContactModal(){
   const contactButton = document.querySelector(".modal__contact--button");
   const modalContact = document.getElementById("modal__contact");
@@ -119,23 +135,52 @@ function bindContactModal(){
 }
 
 function bindLightboxModal(){
-  const mediaCards = document.querySelectorAll(".media__card");
+  const mediaCards = document.querySelectorAll(".media__thumb");
   const modalLightbox = document.getElementById("modal__lightbox");
   const closeModalButton = document.querySelector(".modal__lightbox--close");
 
-  const lightboxActivation = () => {
+  const getCurrentMediaCardId = () => {
+    const lightboxCard = document.querySelector(".lightbox__card");
+    const currentCardId = lightboxCard.firstChild.getAttribute("data-id");
+    return currentCardId;
+  };
+  
+  const getAllMediaCards = () => {
+    const mediaCards = document.querySelectorAll(".media__thumb");
+    const mediaCardsArray = Array.from(mediaCards);
+    return mediaCardsArray;
+  };
+  
+  const findPreviousMediaCard = (currentMediaCardId) => {
+    const mediaCards = getAllMediaCards();
+    const currentMediaCardIndex = mediaCards.findIndex(mediaCard =>
+       mediaCard.getAttribute("data-id") === currentMediaCardId);
+    if(currentMediaCardIndex !== 0) return mediaCards[currentMediaCardIndex - 1];
+    return mediaCards[mediaCards.length - 2]
+  };
+  
+  const findNextMediaCard = (currentMediaCardId) => {
+    const mediaCards = getAllMediaCards();
+    const currentMediaCardIndex = mediaCards.findIndex(mediaCard =>
+        mediaCard.getAttribute("data-id") === currentMediaCardId);
+    if(currentMediaCardIndex === mediaCards.length - 2) return mediaCards[0];
+    else return mediaCards[currentMediaCardIndex + 1];
+  };
+
+  const lightboxActivation = (dataId) => {
       modalLightbox.classList.add("modal__active--flex");
       modalLightbox.setAttribute("aria-hidden", "false");
       modalLightbox.classList.remove("modal--inactive");
+      displayMediaInLightbox(dataId);
   };
 
   mediaCards.forEach(mediaCard => {
-    mediaCard.addEventListener("click", () => {
-      lightboxActivation();
+    mediaCard.addEventListener("click", (e) => {
+      lightboxActivation(e.target.getAttribute("data-id"));
     });
     mediaCard.addEventListener("keydown", (e) => {
       if(e.key === "Enter" || e.key === " "){
-        lightboxActivation();
+        lightboxActivation(e.target.getAttribute("data-id"));
       }
     });
   });
@@ -150,12 +195,13 @@ function bindLightboxModal(){
   const nextButton = document.querySelector(".modal__lightbox--next");
 
   previousButton.addEventListener("click", () => {
-    console.log("previous");
-  }
-  );
+    const previousMediaCard = findPreviousMediaCard(getCurrentMediaCardId());
+    lightboxActivation(previousMediaCard.getAttribute("data-id"));
+  });
 
-  nextButton.addEventListener("click", () => {
-    console.log("next");
+  nextButton.addEventListener("click", () => { 
+    const nextMediaCard = findNextMediaCard(getCurrentMediaCardId());
+    lightboxActivation(nextMediaCard.getAttribute("data-id"));
   }
   );
 
@@ -167,11 +213,13 @@ function bindLightboxModal(){
     }
 
     if(e.key === "ArrowLeft" || e.keyCode === 37 ){
-      console.log("previous");
+      const previousMediaCard = findPreviousMediaCard(getCurrentMediaCardId());
+      lightboxActivation(previousMediaCard.getAttribute("data-id"));
     }
 
     if(e.key === "ArrowRight" || e.keyCode === 39){
-      console.log("next");
+      const nextMediaCard = findNextMediaCard(getCurrentMediaCardId());
+      lightboxActivation(nextMediaCard.getAttribute("data-id"));
     }
   }
   );

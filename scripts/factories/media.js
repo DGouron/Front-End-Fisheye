@@ -5,8 +5,9 @@ function mediaFactory(data) {
         const elementFactory = mediaElementFactory(data);
         const card = document.createElement( 'article' );
         card.setAttribute("data-date", data.date);
+        card.setAttribute("data-likes", data.likes);
         card.classList.add("media__card");
-        const cardThumb = elementFactory.buildThumbElement(data, data.video ? true : false);
+        const cardThumb = elementFactory.buildThumbElement(data, data.video ? true : false, false);
         const cardTitle = elementFactory.buildTitleElement(data);
         const likeButton = elementFactory.buildLikeElement(data.likes);
         const cardFigcaption = elementFactory.buildFigcaptionElement([cardTitle, likeButton]);
@@ -19,7 +20,7 @@ function mediaFactory(data) {
         const elementFactory = mediaElementFactory(data);
         const card = document.createElement( 'article' );
         card.classList.add("lightbox__card");
-        const cardThumb = elementFactory.buildThumbElement(data, data.video ? true : false);
+        const cardThumb = elementFactory.buildThumbElement(data, data.video ? true : false, true);
         const cardTitle = elementFactory.buildTitleElement(data);
         const cardFigcaption = elementFactory.buildFigcaptionElement([cardTitle]);
             card.appendChild(cardThumb);
@@ -35,14 +36,15 @@ function mediaFactory(data) {
 
 
 function mediaElementFactory(data) {
-    const buildThumbElement = (data, itsVideo) => {
+    const buildThumbElement = (data, itsVideo, hasControl = false) => {
         const thumb = document.createElement( itsVideo ? 'video' : 'img' );
         thumb.setAttribute("src", `${BASE_URL}${data.photographerId}/${itsVideo ? data.video : data.image}`);
         if(itsVideo) {
-            thumb.setAttribute("controls", "true");
+            if(hasControl){
+                thumb.setAttribute("controls", "true");
+            }
             thumb.setAttribute("type", "video/mp4");
             thumb.setAttribute("preload", "metadata");
-            thumb.setAttribute("poster", `${BASE_URL}${data.photographerId}/${data.video}`);
             thumb.setAttribute("aria-label", `Vidéo ${data.title} du photographe ${data.photographerId}}`);
             thumb.setAttribute("title", `Vidéo du photographe ${data.photographerId}`);
             thumb.textContent = "Votre navigateur ne prend pas en charge la vidéo HTML5. Voici un lien pour télécharger la vidéo à la place.";
@@ -62,6 +64,7 @@ function mediaElementFactory(data) {
         }
         thumb.setAttribute("tabindex", "0");
         thumb.classList.add("media__thumb");
+        thumb.setAttribute("data-id", data.id);
         return thumb;
     }
     const buildLikeElement = (likeNumber) =>{
