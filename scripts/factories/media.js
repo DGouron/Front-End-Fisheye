@@ -14,8 +14,22 @@ function mediaFactory(data) {
             card.appendChild(cardFigcaption);    
         return card;
     };
+
+    const buildLightboxCard = () => {
+        const elementFactory = mediaElementFactory(data);
+        const card = document.createElement( 'article' );
+        card.classList.add("lightbox__card");
+        const cardThumb = elementFactory.buildThumbElement(data, data.video ? true : false);
+        const cardTitle = elementFactory.buildTitleElement(data);
+        const cardFigcaption = elementFactory.buildFigcaptionElement([cardTitle]);
+            card.appendChild(cardThumb);
+            card.appendChild(cardFigcaption);
+        return card;
+    };
+
     return { 
         buildMediaCard,
+        buildLightboxCard
     };
 };
 
@@ -29,7 +43,7 @@ function mediaElementFactory(data) {
             thumb.setAttribute("type", "video/mp4");
             thumb.setAttribute("preload", "metadata");
             thumb.setAttribute("poster", `${BASE_URL}${data.photographerId}/${data.video}`);
-            thumb.setAttribute("aria-label", `Vidéo du photographe ${data.photographerId}`);
+            thumb.setAttribute("aria-label", `Vidéo ${data.title} du photographe ${data.photographerId}}`);
             thumb.setAttribute("title", `Vidéo du photographe ${data.photographerId}`);
             thumb.textContent = "Votre navigateur ne prend pas en charge la vidéo HTML5. Voici un lien pour télécharger la vidéo à la place.";
             const videoLink = document.createElement("a");
@@ -44,7 +58,7 @@ function mediaElementFactory(data) {
                 videoLink.textContent = "Télécharger la vidéo";
             thumb.appendChild(videoLink);
         } else {
-            thumb.setAttribute("alt", `Photo du photographe ${data.photographerId}`);
+            thumb.setAttribute("alt", `Photo ${data.title} du photographe ${data.photographerId}}`);
         }
         thumb.setAttribute("tabindex", "0");
         thumb.classList.add("media__thumb");
@@ -80,7 +94,6 @@ function mediaElementFactory(data) {
         });
         return figcaption;
     }
-
     return {
         buildThumbElement,
         buildLikeElement,

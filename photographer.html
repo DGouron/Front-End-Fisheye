@@ -40,7 +40,7 @@
     </article>
   </main>
 
-  <dialog id="modal__contact" aria-hidden="true" aria-labelledby="modal__title">
+  <dialog id="modal__contact" aria-hidden="true" aria-labelledby="modal__title" role="dialog">
     <section class="modal">
       <header>
         <h2 id="modal__title">Contactez-moi</h2>
@@ -64,15 +64,21 @@
     </section>
   </dialog>
 
-  <dialog id="modal__lightbox" aria-hidden="true" aria-label="image closeup view">
-    <section id="lightboxContainer">
-      <button class="lightbox__close" aria-label="close dialog">
-        <em class=" fa-solid fa-xmark"></em>
+  <dialog 
+      id="modal__lightbox"
+      class="modal--inactive" 
+      aria-hidden="true" 
+      aria-label="image closeup view" 
+      role="dialog"
+    >
+    <section class="modal__lightbox--container">
+      <button class="modal__lightbox--close" aria-label="close dialog">
+        <em class="fa-solid fa-xmark"></em>
       </button>
-      <button class="lightbox__prev" aria-label="previous image">
+      <button class="modal__lightbox--prev" aria-label="previous image">
         <em class="fa-solid fa-chevron-left"></em>
       </button>
-      <button class="lightbox__next" aria-label="next image">
+      <button class="modal__lightbox--next" aria-label="next image">
         <em class=" fa-solid fa-chevron-right"></em>
       </button>
     </section>

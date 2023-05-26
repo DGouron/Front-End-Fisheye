@@ -73,6 +73,12 @@ async function displayMedia(photographers, photographerId){
   return "success";
 };
 
+/**
+ * Bind a media card to a lightbox modal when clicked 
+ * or when the enter key is pressed
+ * @param {HTML Element} mediaCardToBind 
+ */
+
 async function displayEncart(photographers, photographerId){
   const encart = document.querySelector(".photographer__encart--container");
   if(!encart) return "Encart not found";
@@ -112,6 +118,65 @@ function bindContactModal(){
   );
 }
 
+function bindLightboxModal(){
+  const mediaCards = document.querySelectorAll(".media__card");
+  const modalLightbox = document.getElementById("modal__lightbox");
+  const closeModalButton = document.querySelector(".modal__lightbox--close");
+
+  const lightboxActivation = () => {
+      modalLightbox.classList.add("modal__active--flex");
+      modalLightbox.setAttribute("aria-hidden", "false");
+      modalLightbox.classList.remove("modal--inactive");
+  };
+
+  mediaCards.forEach(mediaCard => {
+    mediaCard.addEventListener("click", () => {
+      lightboxActivation();
+    });
+    mediaCard.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        lightboxActivation();
+      }
+    });
+  });
+
+  closeModalButton.addEventListener("click", () => {
+    modalLightbox.classList.remove("modal__active--flex");
+    modalLightbox.setAttribute("aria-hidden", "true");
+    modalLightbox.classList.add("modal--inactive");
+  });
+
+  const previousButton = document.querySelector(".modal__lightbox--prev");
+  const nextButton = document.querySelector(".modal__lightbox--next");
+
+  previousButton.addEventListener("click", () => {
+    console.log("previous");
+  }
+  );
+
+  nextButton.addEventListener("click", () => {
+    console.log("next");
+  }
+  );
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape"){
+      modalLightbox.classList.remove("modal__active--flex");
+      modalLightbox.setAttribute("aria-hidden", "true");
+      modalLightbox.classList.add("modal--inactive");
+    }
+
+    if(e.key === "ArrowLeft" || e.keyCode === 37 ){
+      console.log("previous");
+    }
+
+    if(e.key === "ArrowRight" || e.keyCode === 39){
+      console.log("next");
+    }
+  }
+  );
+}
+
 async function init() {
   const { photographers, media } = await dataFetch("./data/photographers.json", "GET");
   const photographerId = extractIdFromUrl(window.location.search);
@@ -127,6 +192,7 @@ async function init() {
   if(encartCreationStatus !== "success") throw new Error(encartCreationStatus);
 
   bindContactModal();
+  bindLightboxModal();
 };
 
 init();
