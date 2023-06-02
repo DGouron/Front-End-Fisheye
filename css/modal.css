@@ -140,7 +140,8 @@ form input {
 #modal__lightbox img,
 #modal__lightbox video {
   object-fit: cover;
-
+  min-width: 700px;
+  min-height: 700px;
   width: 100%;
   height: inherit;
 }

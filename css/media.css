@@ -47,6 +47,6 @@
 }
 .like__button:hover{
   color: #FF0000;
-  pointer: pointer;
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
 }

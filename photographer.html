@@ -19,16 +19,11 @@
     <header class="photographer__header">
     </header>
     <article class="photographer__medias">
-      <section class="sort-container">
-        <span id="sort-by">Trier par</span>
-        <div id="sort-menu">
-          <button type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Order-by"
-            id="sort-options-button"><em class="fa-solid fa-chevron-down toggle-icon"></em> </button>
-          <div id="sort-options" role="listbox" aria-expanded="false">
-            <button class="choosen-option" aria-selected="true" role="option">Date</button>
-            <button class="choosen-option" aria-selected="false" role="option">Popularité</button>
-            <button class="choosen-option" aria-selected="false" role="option">Titre</button>
-          </div>
+      <section class="sort__container">
+        <span class="sort__title">Trier par</span>
+        <div class="sort__menu">
+          <select class="sort__selection">
+          </select>
         </div>
       </section>
       <section class="media__container">
@@ -36,7 +31,7 @@
       </section>
     </article>
     <article class="photographer__encart--container">
-
+      
     </article>
   </main>
 
@@ -85,6 +80,8 @@
   </dialog>
 
   <script src="scripts/helpers/dataFetch.js"></script>
+  <script src="scripts/helpers/sort.js"></script>
+  <script src="scripts/helpers/like.js"></script>
   <script src="scripts/factories/photographer.js"></script>
   <script src="scripts/factories/media.js"></script>
   <script src="scripts/factories/modal.js"></script>

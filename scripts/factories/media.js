@@ -6,6 +6,7 @@ function mediaFactory(data) {
         const card = document.createElement( 'article' );
         card.setAttribute("data-date", data.date);
         card.setAttribute("data-likes", data.likes);
+        card.setAttribute("data-liked", 'false');
         card.classList.add("media__card");
         const cardThumb = elementFactory.buildThumbElement(data, data.video ? true : false, false);
         const cardTitle = elementFactory.buildTitleElement(data);
@@ -76,7 +77,7 @@ function mediaElementFactory(data) {
             likeCount.classList.add("like__button--count");
             likeCount.textContent = likeNumber;
         const likeIcon = document.createElement("i");
-            likeIcon.classList.add("fas", "fa-heart");
+            likeIcon.classList.add("far", "fa-heart");
         likeButton.appendChild(likeCount);
         likeButton.appendChild(likeIcon);
         return likeButton;

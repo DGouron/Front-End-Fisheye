@@ -48,8 +48,20 @@ function photographerFactory(data) {
         price.textContent = `${data.price}€ / jour`;
         return price;
     };
+    const buildLikesCounter = () => {
+        const likeCount = document.createElement("span");
+            likeCount.classList.add("likes__count");
+        const likeIcon = document.createElement("i");
+            likeIcon.classList.add("fas", "fa-heart");
+        const likeCounter = document.createElement("p");
+            likeCounter.classList.add("likes__counter");
+            likeCounter.setAttribute("aria-label", "likes");
+            likeCounter.appendChild(likeCount);
+            likeCounter.appendChild(likeIcon);
+        return likeCounter;
+    };
 
-    function buildCard(){
+    const  buildCard = () => {
         const card = document.createElement( 'div' );
         const img = document.createElement( 'img' );
         img.setAttribute("src", picture);
@@ -61,7 +73,7 @@ function photographerFactory(data) {
         return card;
     }
 
-    function buildLink(itemsToWrap) {
+    const buildLink = (itemsToWrap) => {
         const linkToPhotographer = document.createElement( 'a' );
         linkToPhotographer.setAttribute("href", `photographer.html?id=${data.id}`);
         linkToPhotographer.setAttribute("aria-label", `lien vers ${name} profil`);
@@ -71,7 +83,7 @@ function photographerFactory(data) {
         return linkToPhotographer;
     }
 
-    function buildContactButton() {
+    const buildContactButton = () => {
         const contactButton = document.createElement( 'button' );
         contactButton.classList.add("modal__contact--button");
         contactButton.setAttribute("aria-label", `Contact Me`);
@@ -80,9 +92,12 @@ function photographerFactory(data) {
         return contactButton;
     }
 
-    function populateEncart() {
+    const populateEncart = () => {
         const encartContent = document.createElement( 'p' );
+        encartContent.classList.add("photographer__encart--content");
+        const likeCounterElement = buildLikesCounter();
         const priceElement = buildPrice();
+        encartContent.appendChild(likeCounterElement);
         encartContent.appendChild(priceElement);
         return encartContent;
     }
@@ -96,6 +111,7 @@ function photographerFactory(data) {
         buildLocation,
         buildTagline,
         buildPrice,
+        buildLikesCounter,
         buildContactButton,
         populateEncart,
      }

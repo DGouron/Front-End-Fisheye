@@ -1,3 +1,6 @@
+//TODO : use i18n for all the text content in the future
+const SORT__TYPES = ["Popularité", "Date", "Titre"];
+
 function extractIdFromUrl(url) {
   const urlParams = new URLSearchParams(url);
   return urlParams.get("id");
@@ -92,7 +95,7 @@ async function displayEncart(photographers, photographerId){
 
   const photographerModel = photographerFactory(photographer);
   encart.appendChild(photographerModel.populateEncart());
-  
+
   return "success";
 };
 
@@ -106,7 +109,35 @@ async function displayMediaInLightbox(mediaId){
   const lightboxContainer = document.querySelector(".modal__lightbox--container");
   lightboxContainer.removeChild(lightboxContainer.lastChild);
   lightboxContainer.appendChild(lightboxCard);
-}  
+} 
+
+async function displayTotalLikes (totalLikes){
+  const totalLikesContainer = document.querySelector(".likes__count");
+  if(!totalLikesContainer) throw new Error("Total likes container not found");
+  totalLikesContainer.textContent = totalLikes;
+  return "success";
+};
+
+
+async function displaySortMenu(){
+  const sortMenu = document.querySelector(".sort__menu");
+  if(!sortMenu) throw new Error("Sort menu not found");
+
+  const sortSelection = document.querySelector(".sort__selection");
+  if(!sortSelection) throw new Error("Sort selection not found");
+
+  SORT__TYPES.forEach(sortType => {
+    const sortOption = document.createElement("option");
+      sortOption.setAttribute("value", sortType);
+      sortOption.setAttribute("aria-label", sortType);
+      sortOption.setAttribute("role", "option");
+      sortOption.setAttribute("aria-selected", "false");
+      sortOption.textContent = sortType;
+    sortSelection.appendChild(sortOption);
+  });
+
+  return "success";
+};
 
 function bindContactModal(){
   const contactButton = document.querySelector(".modal__contact--button");
@@ -225,6 +256,34 @@ function bindLightboxModal(){
   );
 }
 
+function bindLikeButtons(){
+  const likeButtons = document.querySelectorAll(".like__button");
+  likeButtons.forEach(likeButton => {
+    likeButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      const thumb = e.target.closest(".media__card");
+      const buttonPressed = e.target.closest(".like__button");
+      buttonPressed.setAttribute("disabled", "true")
+      const likeStatus = thumb.getAttribute("data-liked");
+      if(likeStatus === "false"){
+        likeThisThumb(thumb, buttonPressed);
+      } else {
+        unlikeThisThumb(thumb, buttonPressed);
+      }
+    });
+  });
+};
+
+function bindSortSelection(){
+  const sortSelection = document.querySelector(".sort__selection");
+  sortSelection.addEventListener("change", (e) => {
+    const selectedOption = e.target.value;
+    refreshThumbs(selectedOption);
+  });
+};
+      
+
+
 async function init() {
   const { photographers, media } = await dataFetch("./data/photographers.json", "GET");
   const photographerId = extractIdFromUrl(window.location.search);
@@ -239,8 +298,21 @@ async function init() {
   const encartCreationStatus = await displayEncart(photographers, photographerId);
   if(encartCreationStatus !== "success") throw new Error(encartCreationStatus);
 
+  const totalLikes = await getTotalLikes(media, photographerId);
+  const displayTotalLikesStatus = await displayTotalLikes(totalLikes);
+  if(displayTotalLikesStatus !== "success") throw new Error(displayTotalLikesStatus);
+
+  const sortdOptionsCreationStatus = await displaySortMenu();
+  if(sortdOptionsCreationStatus !== "success") throw new Error(sortdOptionsCreationStatus);
+  
   bindContactModal();
   bindLightboxModal();
+  bindLikeButtons();
+  bindSortSelection();
+
+  // Sort by default
+  refreshThumbs("Popularité");
+
 };
 
 init();
