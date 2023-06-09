@@ -1,5 +1,0 @@
-function modalFactory(data) {
-
-  return { 
-  };
-};

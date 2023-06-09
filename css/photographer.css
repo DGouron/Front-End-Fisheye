@@ -65,7 +65,7 @@ main {
     background-color: #db8876;
     border-radius: 5px 5px 0px 0px;
 }
-.photographer__encart--container p {
+.photographer__encart--container h4 {
     margin: 0;
     margin-right: 5px;
 }

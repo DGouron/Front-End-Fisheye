@@ -26,13 +26,23 @@ function photographerFactory(data) {
         img.setAttribute("alt", `Photo du photographe ${name}`);
         return img;
     };
-    const buildCardName = () => {
-        const h2 = document.createElement( 'h2' );
-        h2.textContent = name;
-        return h2;
+    const buildCardName = (isMainTitle) => {
+        let title = undefined;
+        if(isMainTitle || isMainTitle === undefined) {
+            title = document.createElement( 'h1' );
+        } else {
+            title = document.createElement( 'h2' );
+        }
+        title.textContent = name;
+        return title;
     };
-    const buildLocation = () => {
-        const city = document.createElement( 'h3' );
+    const buildLocation = (isSubtitle) => {
+        let city = undefined;
+        if(isSubtitle || isSubtitle === undefined) {
+            city = document.createElement( 'h2' );
+        } else {
+            city = document.createElement( 'h3' );
+        }
         city.textContent = `${data.city}, ${data.country}`;
         return city;
     };
@@ -44,16 +54,16 @@ function photographerFactory(data) {
     };
 
     const buildPrice = () => {
-        const price = document.createElement( 'p' );
+        const price = document.createElement( 'h5' );
         price.textContent = `${data.price}€ / jour`;
         return price;
     };
     const buildLikesCounter = () => {
-        const likeCount = document.createElement("span");
+        const likeCount = document.createElement("h3");
             likeCount.classList.add("likes__count");
         const likeIcon = document.createElement("i");
             likeIcon.classList.add("fas", "fa-heart");
-        const likeCounter = document.createElement("p");
+        const likeCounter = document.createElement("h4");
             likeCounter.classList.add("likes__counter");
             likeCounter.setAttribute("aria-label", "likes");
             likeCounter.appendChild(likeCount);
@@ -66,10 +76,10 @@ function photographerFactory(data) {
         const img = document.createElement( 'img' );
         img.setAttribute("src", picture);
         img.setAttribute("alt", `Photo du photographe ${name}`);
-        const h2 = document.createElement( 'h2' );
-        h2.textContent = name;
+        const title = document.createElement( 'h1' );
+        title.textContent = name;
         card.appendChild(img);
-        card.appendChild(h2);
+        card.appendChild(title);
         return card;
     }
 

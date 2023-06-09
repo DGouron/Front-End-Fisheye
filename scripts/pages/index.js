@@ -5,9 +5,9 @@ async function displayData(photographers) {
         /* Add card img */
         const photographerCardThumbnail = photographerModel.buildCardThumbnail();
         /* Add card name */
-        const photographerCardName = photographerModel.buildCardName();
+        const photographerCardName = photographerModel.buildCardName(false);
         /* Add country and city */
-        const photographerLocation = photographerModel.buildLocation();
+        const photographerLocation = photographerModel.buildLocation(false);
         /* Add tagline */
         const photographerTagline = photographerModel.buildTagline();
         /* Add price */

@@ -36,8 +36,8 @@ async function displayHeader(photographers, photographerId){
 
   const photographerCardThumbnail = photographerModel.buildCardThumbnail();
   const photographerContactButton = photographerModel.buildContactButton();
-  const photographerCardName = photographerModel.buildCardName();
-  const photographerLocation = photographerModel.buildLocation();
+  const photographerCardName = photographerModel.buildCardName(true);
+  const photographerLocation = photographerModel.buildLocation(true);
   const photographerTagline = photographerModel.buildTagline();
 
   const photographerDetails = photographerModel.compileDetails(
@@ -147,6 +147,13 @@ function bindContactModal(){
   contactButton.addEventListener("click", () => {
     modalContact.classList.add("modal--active");
     modalContact.setAttribute("aria-hidden", "false");
+    focus(modalContact);
+  });
+
+  contactButton.addEventListener("keydown", (e) => {
+    if(e.key === "Enter"){
+      focus(modalContact);
+    }
   });
 
   closeModalButton.addEventListener("click", () => {
